@@ -49,23 +49,23 @@ const Index = () => {
   };
 
   return (
-    <Box maxW="480px" mx="auto" mt={8} p={6} borderWidth={1} borderRadius={8} boxShadow="lg">
-      <Heading mb={8} textAlign="center">
-        Todo App
+    <Box maxW="600px" mx="auto" mt={8} p={6} borderWidth={1} borderRadius={8} boxShadow="lg">
+      <Heading mb={8} textAlign="center" color="blue.500">
+        My Todo List
       </Heading>
 
       <Flex mb={8}>
-        <Input value={newTask} onChange={(e) => setNewTask(e.target.value)} placeholder="Enter a new task" mr={4} />
+        <Input value={newTask} onChange={(e) => setNewTask(e.target.value)} placeholder="Enter a new task" mr={4} borderColor="gray.300" _hover={{ borderColor: "blue.500" }} />
         <Button onClick={handleSubmit} colorScheme="blue" px={8}>
-          <FaPlus />
+          Add
         </Button>
       </Flex>
 
       {tasks.map((task) => (
-        <Flex key={task.id} mb={4} align="center">
-          <Checkbox isChecked={task.completed} onChange={() => handleComplete(task.id)} mr={4} />
+        <Flex key={task.id} mb={4} align="center" bg="gray.50" p={4} borderRadius={4}>
+          <Checkbox isChecked={task.completed} onChange={() => handleComplete(task.id)} mr={4} colorScheme="blue" />
           {editTaskId === task.id ? (
-            <Input value={editTaskText} onChange={(e) => setEditTaskText(e.target.value)} mr={2} />
+            <Input value={editTaskText} onChange={(e) => setEditTaskText(e.target.value)} mr={2} borderColor="gray.300" />
           ) : (
             <Text flex={1} textDecoration={task.completed ? "line-through" : "none"}>
               {task.text}
@@ -73,13 +73,13 @@ const Index = () => {
           )}
           {editTaskId === task.id ? (
             <>
-              <IconButton icon={<FaEdit />} onClick={handleEditSubmit} mr={2} />
-              <IconButton icon={<FaTrash />} onClick={handleEditCancel} />
+              <IconButton icon={<FaEdit />} onClick={handleEditSubmit} mr={2} colorScheme="green" />
+              <IconButton icon={<FaTrash />} onClick={handleEditCancel} colorScheme="red" />
             </>
           ) : (
             <>
-              <IconButton icon={<FaEdit />} onClick={() => handleEditStart(task.id, task.text)} mr={2} />
-              <IconButton icon={<FaTrash />} onClick={() => handleDelete(task.id)} />
+              <IconButton icon={<FaEdit />} onClick={() => handleEditStart(task.id, task.text)} mr={2} colorScheme="blue" />
+              <IconButton icon={<FaTrash />} onClick={() => handleDelete(task.id)} colorScheme="red" />
             </>
           )}
         </Flex>
