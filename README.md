@@ -1,18 +1,21 @@
 # productivity-helper
 
-Please create a simple todo app with the following features:
+Implement a basic todo app with the following features:
 
-- A header with the app name
-- An input field for adding new tasks, with a button to submit
-- A list showing existing tasks
-- For each task:
-  - Checkbox to mark it as completed 
-  - Button to edit the task name
-  - Button to delete the task
-- Completed tasks should appear crossed out
-- Some basic styling to make it look nice
+- A header at the top saying "My Todo List"
+- An input field where the user can type a new todo item
+- An "Add" button next to the input to add the new item
+- Display a list of todo items below the input 
+- For each todo item, show:
+  - A checkbox to mark the item as completed
+  - The name of the todo item
+  - An "Edit" button to edit the item name
+  - A "Delete" button to delete the item
+- When a todo item is marked as completed, display its name with a strikethrough 
+- Store the todo items in state so they persist if the page is refreshed
+- Add some basic styling with Chakra UI components to make it look clean and friendly
 
-You can make up some example tasks to populate the list with.
+You can initialize the app with a few example todo items like "Buy groceries", "Walk the dog", "Do laundry", etc.
 
 ## Collaborate with GPT Engineer
 
