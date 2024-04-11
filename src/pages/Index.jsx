@@ -1,85 +1,83 @@
 import React, { useState } from "react";
-import { Box, Heading, Input, Button, Checkbox, Text, Flex, IconButton, useToast } from "@chakra-ui/react";
+import { Box, Heading, Input, Button, Checkbox, Text, Flex, IconButton } from "@chakra-ui/react";
 import { FaPlus, FaEdit, FaTrash } from "react-icons/fa";
 
-const INITIAL_TASKS = [
+const INITIAL_TODOS = [
   { id: 1, text: "Buy groceries", completed: false },
   { id: 2, text: "Do laundry", completed: true },
   { id: 3, text: "Clean bathroom", completed: false },
 ];
 
 const Index = () => {
-  const [tasks, setTasks] = useState(INITIAL_TASKS);
-  const [newTask, setNewTask] = useState("");
-  const [editTaskId, setEditTaskId] = useState(null);
-  const [editTaskText, setEditTaskText] = useState("");
-  const toast = useToast();
+  const [todos, setTodos] = useState(INITIAL_TODOS);
+  const [newTodo, setNewTodo] = useState("");
+  const [editTodoId, setEditTodoId] = useState(null);
+  const [editTodoText, setEditTodoText] = useState("");
 
-  const handleSubmit = () => {
-    if (newTask.trim()) {
-      const newId = Math.max(...tasks.map((task) => task.id)) + 1;
-      setTasks([...tasks, { id: newId, text: newTask, completed: false }]);
-      setNewTask("");
+  const handleAddTodo = () => {
+    if (newTodo.trim()) {
+      const newId = Math.max(...todos.map((todo) => todo.id)) + 1;
+      setTodos([...todos, { id: newId, text: newTodo, completed: false }]);
+      setNewTodo("");
     }
   };
 
-  const handleComplete = (id) => {
-    setTasks(tasks.map((task) => (task.id === id ? { ...task, completed: !task.completed } : task)));
+  const handleToggleComplete = (id) => {
+    setTodos(todos.map((todo) => (todo.id === id ? { ...todo, completed: !todo.completed } : todo)));
   };
 
-  const handleDelete = (id) => {
-    setTasks(tasks.filter((task) => task.id !== id));
-    toast({ title: "Task deleted", status: "info", duration: 2000, isClosable: true });
+  const handleDeleteTodo = (id) => {
+    setTodos(todos.filter((todo) => todo.id !== id));
   };
 
-  const handleEditStart = (id, text) => {
-    setEditTaskId(id);
-    setEditTaskText(text);
+  const handleEditTodo = (id, text) => {
+    setEditTodoId(id);
+    setEditTodoText(text);
   };
 
-  const handleEditCancel = () => {
-    setEditTaskId(null);
-    setEditTaskText("");
+  const handleCancelEdit = () => {
+    setEditTodoId(null);
+    setEditTodoText("");
   };
 
-  const handleEditSubmit = () => {
-    setTasks(tasks.map((task) => (task.id === editTaskId ? { ...task, text: editTaskText } : task)));
-    setEditTaskId(null);
-    setEditTaskText("");
+  const handleSaveEdit = () => {
+    setTodos(todos.map((todo) => (todo.id === editTodoId ? { ...todo, text: editTodoText } : todo)));
+    setEditTodoId(null);
+    setEditTodoText("");
   };
 
   return (
-    <Box maxW="480px" mx="auto" mt={8} p={6} borderWidth={1} borderRadius={8} boxShadow="lg">
-      <Heading mb={8} textAlign="center">
-        Todo App
+    <Box maxW="md" mx="auto" mt={8} p={6} borderWidth={1} borderRadius="lg" boxShadow="xl">
+      <Heading size="xl" textAlign="center" mb={8}>
+        My Todo List
       </Heading>
 
       <Flex mb={8}>
-        <Input value={newTask} onChange={(e) => setNewTask(e.target.value)} placeholder="Enter a new task" mr={4} />
-        <Button onClick={handleSubmit} colorScheme="blue" px={8}>
+        <Input value={newTodo} onChange={(e) => setNewTodo(e.target.value)} placeholder="Enter a new todo" mr={4} />
+        <Button onClick={handleAddTodo} colorScheme="blue">
           <FaPlus />
         </Button>
       </Flex>
 
-      {tasks.map((task) => (
-        <Flex key={task.id} mb={4} align="center">
-          <Checkbox isChecked={task.completed} onChange={() => handleComplete(task.id)} mr={4} />
-          {editTaskId === task.id ? (
-            <Input value={editTaskText} onChange={(e) => setEditTaskText(e.target.value)} mr={2} />
+      {todos.map((todo) => (
+        <Flex key={todo.id} mb={4} align="center">
+          <Checkbox isChecked={todo.completed} onChange={() => handleToggleComplete(todo.id)} mr={4} />
+          {editTodoId === todo.id ? (
+            <Input value={editTodoText} onChange={(e) => setEditTodoText(e.target.value)} mr={2} />
           ) : (
-            <Text flex={1} textDecoration={task.completed ? "line-through" : "none"}>
-              {task.text}
+            <Text flex={1} textDecoration={todo.completed ? "line-through" : "none"}>
+              {todo.text}
             </Text>
           )}
-          {editTaskId === task.id ? (
+          {editTodoId === todo.id ? (
             <>
-              <IconButton icon={<FaEdit />} onClick={handleEditSubmit} mr={2} />
-              <IconButton icon={<FaTrash />} onClick={handleEditCancel} />
+              <IconButton icon={<FaEdit />} onClick={handleSaveEdit} mr={2} />
+              <IconButton icon={<FaTrash />} onClick={handleCancelEdit} />
             </>
           ) : (
             <>
-              <IconButton icon={<FaEdit />} onClick={() => handleEditStart(task.id, task.text)} mr={2} />
-              <IconButton icon={<FaTrash />} onClick={() => handleDelete(task.id)} />
+              <IconButton icon={<FaEdit />} onClick={() => handleEditTodo(todo.id, todo.text)} mr={2} />
+              <IconButton icon={<FaTrash />} onClick={() => handleDeleteTodo(todo.id)} />
             </>
           )}
         </Flex>
